@@ -1,4 +1,4 @@
-## How is text represented in memory
+## How is text represented in memory ?
 
 ### 20/08/2026
 

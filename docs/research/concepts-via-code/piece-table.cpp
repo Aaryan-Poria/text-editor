@@ -28,6 +28,15 @@ private:
     std::list<Piece> pieces;
 
 public:
+    void moveToPosition(std::list<Piece>::iterator &it, size_t &remaining)
+    {
+        for (; it != pieces.end(); ++it)
+        {
+            if (remaining < it->length)
+                break;
+            remaining -= it->length;
+        }
+    }
     char charAt(size_t position)
     {
         size_t remaining = position;
@@ -40,8 +49,6 @@ public:
             }
             remaining -= piece.length;
         }
-
-        throw std::out_of_range("Position outside document!");
     }
     std::string getText(size_t start, size_t length)
     {
@@ -50,12 +57,7 @@ public:
 
         auto it = pieces.begin();
 
-        for (; it != pieces.end(); ++it)
-        {
-            if (remaining < it->length)
-                break;
-            remaining -= it->length;
-        }
+        moveToPosition(it, remaining);
 
         size_t offset = remaining;
 
@@ -74,7 +76,7 @@ public:
         return text;
     }
 
-    void insert(Cursor &cursor, std::string_view text)
+    void insertText(Cursor &cursor, std::string_view text)
     {
         const size_t textLength = text.size();
         if (textLength == 0)
@@ -124,6 +126,42 @@ public:
             cursor.piece = insertedIt;
         }
         cursor.offset = textLength;
+    }
+    void deleteText(size_t start, size_t length)
+    {
+        size_t remaining = start;
+        auto it = pieces.begin();
+
+        moveToPosition(it, remaining);
+        size_t offset = remaining;
+
+        for (; it != pieces.end() && length > 0; ++it)
+        {
+            Piece currentPiece = *it;
+
+            size_t available = currentPiece.length - offset;
+            size_t take = std::min(available, length);
+
+            if (offset > 0)
+            {
+                Piece leftPiece{
+                    currentPiece.buffer,
+                    currentPiece.start,
+                    offset};
+                pieces.insert(it, leftPiece);
+            }
+            if (take < available)
+            {
+                Piece rightPiece{
+                    currentPiece.buffer,
+                    currentPiece.start + offset + take,
+                    available - take};
+                pieces.insert(it, rightPiece);
+            }
+            it = pieces.erase(it);
+            length -= take;
+            offset = 0;
+        }
     }
 };
 
