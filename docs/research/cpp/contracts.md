@@ -13,7 +13,7 @@ A useful contract has roughly these dimensions:
 5. Ownership/lifetime
 6. Invalid input behaviour
 7. Exception Behaviour
-8. COmplexity
+8. Complexity
 
 Moreover, following one of the major programming techniques in CPP, [RAII](https://en.cppreference.com/cpp/language/raii) tells us two important things: If a constructor succeeds, it must create a valid object. Otherwise, in the case of failure, no object should have been created. We prefer creating an object in the required state rather than creating an incomplete state and fixing it afterward
 

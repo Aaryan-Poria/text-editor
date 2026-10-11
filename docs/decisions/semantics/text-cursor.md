@@ -18,7 +18,3 @@ Cursor is after the last character of the piece.
 
 insert(text) inserts text at the cursor position and moves the cursor
 to immediately after the inserted text.
-
-## Reasons for this decision
-
-While implementing the standalone piece_table data structure for learning, the initial approach of cursor pointing to a character was making inserton difficult, due to need of multiple case handlings.
