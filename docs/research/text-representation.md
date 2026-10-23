@@ -1,7 +1,5 @@
 ## How is text represented in memory ?
 
-### 20/08/2026
-
 Approach-1:
 
 Simplest approach is using a vector of lines, used in [Build your own text editor](https://viewsourcecode.org/snaptoken/kilo/)

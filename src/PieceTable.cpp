@@ -1,4 +1,4 @@
-#include "include/PieceTable.h"
+#include "PieceTable.h"
 #include <algorithm>
 #include <cassert>
 #include <iterator>
